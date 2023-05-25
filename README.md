@@ -1,7 +1,21 @@
-[![Build and Push](https://github.com/appium/appium-docker-android/actions/workflows/release.yml/badge.svg)](https://github.com/appium/appium-docker-android/actions/workflows/release.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/appium/appium.svg?style=flat-square)](https://hub.docker.com/r/appium/appium/)
-[![](https://images.microbadger.com/badges/image/appium/appium.svg)](https://microbadger.com/images/appium/appium)
+## Pull the image from Docker Hub
+### x86
+```
+docker pull unclegravity/appium-docker-android:amd64
+```
+```
+docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:amd64
+```
+### ARM64
+```
+docker pull unclegravity/appium-docker-android:arm64
+```
+```
+docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:arm64
+```
 
+### Run the container
+```docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:arm64```
 
 # Appium Docker for Android
 

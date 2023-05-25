@@ -1,4 +1,4 @@
-FROM ubuntu:focal-20230412
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -45,13 +45,18 @@ RUN apt-get -qqy update && \
     wget \
     xvfb \
     zip \
+    android-sdk \
+    android-sdk-build-tools \
   && rm -rf /var/lib/apt/lists/*
 
 #===============
 # Set JAVA_HOME
 #===============
-ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" \
-    PATH=$PATH:$JAVA_HOME/bin
+# IF running on x86_64
+# ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" PATH=$PATH:$JAVA_HOME/bin
+
+# ELIF running on arm64
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-arm64" PATH=$PATH:$JAVA_HOME/bin
 
 #===============================
 # Set Timezone (UTC as default)
@@ -80,29 +85,33 @@ WORKDIR /home/androidusr
 #=====================
 # Install Android SDK
 #=====================
-ENV SDK_VERSION=commandlinetools-linux-8512546_latest
-ENV ANDROID_BUILD_TOOLS_VERSION=33.0.0
-ENV ANDROID_FOLDER_NAME=cmdline-tools
-ENV ANDROID_DOWNLOAD_PATH=/home/androidusr/${ANDROID_FOLDER_NAME} \
-    ANDROID_HOME=/opt/android \
-    ANDROID_TOOL_HOME=/opt/android/${ANDROID_FOLDER_NAME}
+ENV ANDROID_HOME=/usr/lib/android-sdk
+# # ENV SDK_VERSION=commandlinetools-linux-8512546_latest
+# ENV SDK_VERSION=commandlinetools-linux-9123335_latest
+# ENV ANDROID_BUILD_TOOLS_VERSION=32.0.0
+# # ENV ANDROID_BUILD_TOOLS_VERSION=33.0.0
+# # ENV ANDROID_BUILD_TOOLS_VERSION=33.0.1
+# ENV ANDROID_FOLDER_NAME=cmdline-tools
+# ENV ANDROID_DOWNLOAD_PATH=/home/androidusr/${ANDROID_FOLDER_NAME} \
+#     ANDROID_HOME=/opt/android \
+#     ANDROID_TOOL_HOME=/opt/android/${ANDROID_FOLDER_NAME}
 
-RUN wget -O tools.zip https://dl.google.com/android/repository/${SDK_VERSION}.zip && \
-    unzip tools.zip && rm tools.zip && \
-    chmod a+x -R ${ANDROID_DOWNLOAD_PATH} && \
-    chown -R 1300:1301 ${ANDROID_DOWNLOAD_PATH} && \
-    mkdir -p ${ANDROID_TOOL_HOME} && \
-    mv ${ANDROID_DOWNLOAD_PATH} ${ANDROID_TOOL_HOME}/tools
-ENV PATH=$PATH:${ANDROID_TOOL_HOME}/tools:${ANDROID_TOOL_HOME}/tools/bin
+# RUN wget -O tools.zip https://dl.google.com/android/repository/${SDK_VERSION}.zip && \
+#     unzip tools.zip && rm tools.zip && \
+#     chmod a+x -R ${ANDROID_DOWNLOAD_PATH} && \
+#     chown -R 1300:1301 ${ANDROID_DOWNLOAD_PATH} && \
+#     mkdir -p ${ANDROID_TOOL_HOME} && \
+#     mv ${ANDROID_DOWNLOAD_PATH} ${ANDROID_TOOL_HOME}/tools
+# ENV PATH=$PATH:${ANDROID_TOOL_HOME}/tools:${ANDROID_TOOL_HOME}/tools/bin
 
-# https://askubuntu.com/questions/885658/android-sdk-repositories-cfg-could-not-be-loaded
-RUN mkdir -p ~/.android && \
-    touch ~/.android/repositories.cfg && \
-    echo y | sdkmanager "platform-tools" && \
-    echo y | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION" && \
-    mv ~/.android .android && \
-    chown -R 1300:1301 .android
-ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools
+# # https://askubuntu.com/questions/885658/android-sdk-repositories-cfg-could-not-be-loaded
+# RUN mkdir -p ~/.android && \
+#     touch ~/.android/repositories.cfg && \
+#     echo y | sdkmanager "platform-tools" && \
+#     echo y | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION" && \
+#     mv ~/.android .android && \
+#     chown -R 1300:1301 .android
+# ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools
 
 #====================================
 # Install latest nodejs, npm, appium
