@@ -13,7 +13,7 @@ ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-arm64" PATH=$PATH:$JAVA_HOME/bin
 
 2. Build the container
 ```bash
-docker build -t "appium/appium:local" -f Appium/Dockerfile
+docker build -t "appium/appium:local" -f Appium/Dockerfile Appium
 ```
 
 3. Run the container
