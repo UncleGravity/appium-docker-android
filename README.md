@@ -1,21 +1,35 @@
-## Pull the image from Docker Hub
-### x86
+## Build the container locally
+1. Modify the Dockerfile use the java version that matches your cpu architecture.
+```dockerfile
+#===============
+# Set JAVA_HOME
+#===============
+# IF running on x86_64
+# ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" PATH=$PATH:$JAVA_HOME/bin
+
+# ELIF running on arm64
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-arm64" PATH=$PATH:$JAVA_HOME/bin
 ```
-docker pull unclegravity/appium-docker-android:amd64
+
+2. Build the container
+```bash
+docker build -t "appium/appium:local" -f Appium/Dockerfile
 ```
-```
-docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:amd64
-```
-### ARM64
-```
-docker pull unclegravity/appium-docker-android:arm64
-```
-```
+
+3. Run the container
+```bash
 docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:arm64
 ```
 
+## Pull the image from Docker Hub (ARM64 only)
+### Pull the image
+```bash
+docker pull unclegravity/appium-docker-android:arm64
+```
 ### Run the container
-```docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:arm64```
+```bash
+docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:arm64
+```
 
 # Appium Docker for Android
 
