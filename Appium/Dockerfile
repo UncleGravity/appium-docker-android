@@ -53,10 +53,10 @@ RUN apt-get -qqy update && \
 # Set JAVA_HOME
 #===============
 # IF running on x86_64
-# ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" PATH=$PATH:$JAVA_HOME/bin
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64" PATH=$PATH:$JAVA_HOME/bin
 
 # ELIF running on arm64
-ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-arm64" PATH=$PATH:$JAVA_HOME/bin
+# ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk-arm64" PATH=$PATH:$JAVA_HOME/bin
 
 #===============================
 # Set Timezone (UTC as default)
