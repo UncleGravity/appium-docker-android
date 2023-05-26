@@ -18,7 +18,7 @@ docker build -t "appium/appium:local" -f Appium/Dockerfile Appium
 
 3. Run the container
 ```bash
-docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container unclegravity/appium-docker-android:arm64
+docker run --privileged -d -p 4723:4723 -v /dev/bus/usb:/dev/bus/usb -e ANDROID_HOME=/usr/lib/android-sdk -e APPIUM_ADDITIONAL_PARAMS="--allow-insecure=adb_shell" --name appium-container appium/appium:local
 ```
 
 ## Pull the image from Docker Hub (ARM64 only)
